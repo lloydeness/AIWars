@@ -10,8 +10,10 @@ public class WorkerControl : MonoBehaviour
     public List<Vector3> bases;
     public List<Vector3> Minerals;
     public List<Minerals> Mins;
+    private int workerCount = 0;
     private bool isBuilt = false;
-    private int random;
+    private int objectsInSensor = 0;
+ 
 
 
 
@@ -29,17 +31,20 @@ public class WorkerControl : MonoBehaviour
     void Update()
     {
 
+
+
         if (isBuilt == false)
         {
             build();
-
-
         }
 
-        int delete = bases.Count;
-        int delete2 = Minerals.Count;
 
+        if (objectsInSensor < sensor.targets.Count)
+        {
 
+            countWorkers();
+
+        }
 
 
 
@@ -48,6 +53,9 @@ public class WorkerControl : MonoBehaviour
     void build()
     {
 
+        Mins.Clear();
+        bases.Clear();
+        workers.Clear();
 
 
         for (int i = 0; i < sensor.targets.Count; i++)
@@ -57,7 +65,7 @@ public class WorkerControl : MonoBehaviour
                 Vector3 temp = sensor.targets[i].transform.position;
                 Minerals.Add(temp);
                 Mins.Add(sensor.targets[i].GetComponent<Minerals>());
-                //Mins[i].position = temp;
+                
 
 
             }
@@ -69,37 +77,46 @@ public class WorkerControl : MonoBehaviour
                 bases.Add(temp);
             }
 
+
+            if (sensor.targets[i].tag == ("Worker"))
+            {      
+
+                workers.Add(sensor.targets[i].GetComponent<WorkerBee>());
+            }
+
         }
 
 
 
         for (int i = 0; i < workers.Count; i++)
         {
-
-
-            random = addRandomPatch();
-
-
-
-            do
+            float distance = 100000;
+            Vector3 closestPatch;
+            int tempObject = 0;
+            closestPatch = new Vector3(1000, 1000, 1000);
+            for (int j = 0; j < Minerals.Count; j++)
             {
-                random = addRandomPatch();
-                bool deleteme1 = Mins[0].occupied;
-                bool deleteme2 = Mins[1].occupied;
-                bool deleteme3 = Mins[2].occupied;
+                Vector3 tempPatch = Mins[j].gameObject.transform.position;
+                
+              
+
+                if (Vector3.Distance(workers[i].transform.position, tempPatch) < distance && Mins[j].occupied ==false)
+                {
+                    closestPatch = tempPatch;
+                    distance = Vector3.Distance(workers[i].transform.position, closestPatch);                    
+                    tempObject = j;
+                }
+
+            }
 
 
-            } while (Mins[random].occupied == true);
 
 
-
-
-
-
-            Mins[random].occupants++;
-            Mins[random].occupied = true;
-            workers[i].mineralPatch = Minerals[random];
+            Mins[tempObject].occupants++;
+            Mins[tempObject].occupied = true;
+            workers[i].mineralPatch = Mins[tempObject].transform.position;
             workers[i].Base = bases[0];
+            workers[i].jobAssigned = true;
 
 
 
@@ -108,8 +125,9 @@ public class WorkerControl : MonoBehaviour
         }
 
 
-
+        objectsInSensor = sensor.targets.Count;
         isBuilt = true;
+        workerCount = workers.Count;
     }
 
     int addRandomPatch()
@@ -118,6 +136,85 @@ public class WorkerControl : MonoBehaviour
 
 
         return (int)temp;
+
+    }
+
+    void countWorkers()
+    {
+        workerCount = 0;
+        for (int i = 0; i < sensor.targets.Count; i++)
+        {
+            if (sensor.targets[i].tag == ("Worker"))
+            {
+                workerCount++;    
+                if (workerCount > workers.Count)
+                {
+                    workers.Add(sensor.targets[i].GetComponent<WorkerBee>());
+                    assignWork();
+                }         
+            }
+
+        }
+    }
+
+    void assignWork()
+    {
+
+        for (int i = 0; i < workers.Count; i++)
+        {
+            if (workers[i].jobAssigned == false)
+            {
+                float distance = 100000;
+                Vector3 closestPatch;
+                int tempObject = 0;
+                closestPatch = new Vector3(1000, 1000, 1000);
+
+
+
+                for (int j = 0; j < Minerals.Count; j++)
+                {
+
+                    Vector3 tempPatch = Mins[j].gameObject.transform.position;
+
+
+
+                    if (Vector3.Distance(workers[i].transform.position, tempPatch) < distance && Mins[j].occupied == false)
+                    {
+                        closestPatch = tempPatch;
+                        distance = Vector3.Distance(workers[i].transform.position, closestPatch);
+                        tempObject = j;
+                    }
+
+
+                }
+
+
+
+
+                Mins[tempObject].occupants++;
+                Mins[tempObject].occupied = true;
+                workers[i].mineralPatch = Mins[tempObject].transform.position;
+                workers[i].Base = bases[0];
+                workers[i].jobAssigned = true;
+
+
+
+            }
+        }
+    }
+
+
+
+        void resetMineralsOccupied()
+    {
+        for (int i = 0; i < Mins.Count; i++)
+        {
+
+            Mins[i].occupants = 0;
+            Mins[i].occupied = false;
+
+        }
+
 
     }
 

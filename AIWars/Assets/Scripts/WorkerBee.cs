@@ -13,9 +13,12 @@ public class WorkerBee : SteeringBehaviour
     public Sensor hitSensor;
     public Vector3 mineralPatch { get; set; }
     public Vector3 Base { get; set; }
+    public bool isSelected { get; set; }
+    public ObjectAttached attachedObject;
+    public bool jobAssigned { get; set; }
 
-    private Rigidbody rb3d;
-    private GameObject gameobject;
+
+    private Rigidbody rb3d;   
     private float timeStamp = 0;
     private Vector3 tempLocation;
     private bool goToMouse = false;
@@ -31,7 +34,7 @@ public class WorkerBee : SteeringBehaviour
         maxSpeed = 3;
         turnSpeed = 0.2f;
         rb3d = this.GetComponentInParent<Rigidbody>();
-        gameobject = GetComponentInParent<GameObject>();
+
 
 
 
@@ -54,7 +57,12 @@ public class WorkerBee : SteeringBehaviour
         }
 
 
-        if (GameObject.FindWithTag("Selectable"))
+        attachedObject = this.GetComponentInChildren<ObjectAttached>();
+
+
+
+
+        if (attachedObject != null)
         {
 
 
@@ -102,7 +110,7 @@ public class WorkerBee : SteeringBehaviour
                     {
 
 
-                        Seek(mineralPatch, 0);
+                        Seek(mineralPatch, 1);
 
                     }
                     else

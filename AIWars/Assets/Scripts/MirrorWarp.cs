@@ -10,7 +10,7 @@ public class MirrorWarp : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        Vector3 temp2 = other.transform.position;
+        
         Vector3 temp = other.GetComponent<Rigidbody>().transform.position;
 
         if (temp.x < minimumX || temp.x > maximumX)
