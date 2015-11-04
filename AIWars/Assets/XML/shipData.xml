@@ -1,0 +1,31 @@
+﻿<atlas>
+  <image>
+    <name>player</name>
+    <x>86</x>
+    <y>86</y>
+    <width>75</width>
+    <height>70</height>
+  </image>
+  <image>
+  <player>enemy</player>
+    <x>170</x>
+    <y>86</y>
+    <width>75</width>
+    <height>70</height>
+  </image>
+  <image>
+    <name>motherShip</name>
+    <x>20</x>
+    <y>21</y>
+    <width>18</width>
+    <height>15</height>
+  </image>
+   <image>
+
+	<name>worker</name>
+	<x>44</x>
+	<y>349</y>
+	<width>37</width>
+	<height>31</height>
+	</image>
+</atlas>
