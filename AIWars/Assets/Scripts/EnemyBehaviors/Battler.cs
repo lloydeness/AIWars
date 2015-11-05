@@ -9,7 +9,7 @@ public class Battler : SteeringBehaviour {
     public Sensor Rsensor;
     public Sensor hitSensor;
     public Rigidbody Enemy;
-    public int hitPoints = 1000;
+    public int hitPoints = 10;
    
 
 
@@ -60,7 +60,7 @@ public class Battler : SteeringBehaviour {
                 }
                 else
                 {
-                    Seek(sensor.targets[0].transform.position, 0);
+                    Seek(sensor.targets[0].transform.position, 4);
 
                 }
 

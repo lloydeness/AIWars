@@ -53,7 +53,7 @@ public class InterceptorLauncher : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other != EquippedTo.GetComponent<Collider>())
+        if (other != EquippedTo.GetComponent<Collider>() && other.tag == ("Enemy"))
         {
             targets.Add(other.transform);
             timeStamp = Time.time;

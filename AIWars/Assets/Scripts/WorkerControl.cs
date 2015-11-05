@@ -10,6 +10,9 @@ public class WorkerControl : MonoBehaviour
     public List<Vector3> bases;
     public List<Vector3> Minerals;
     public List<Minerals> Mins;
+    public int resources { get; set; }
+    public int displayResources;
+
     private int workerCount = 0;
     private bool isBuilt = false;
     private int objectsInSensor = 0;
@@ -31,7 +34,7 @@ public class WorkerControl : MonoBehaviour
     void Update()
     {
 
-
+        displayResources = resources;
 
         if (isBuilt == false)
         {
@@ -219,6 +222,44 @@ public class WorkerControl : MonoBehaviour
     }
 
 
+    void OnGUI()
+    {
+
+
+
+
+        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2, 200, 30), "Create Worker"))
+        {
+            if (resources >= 50)
+            {
+                GameObject worker = PoolManager.Instance.GetObjectForType("WorkerBee", false);
+                WorkerBee script = worker.GetComponent<WorkerBee>();
+                script.transform.position = new Vector3(-5.5f, 0, 0);
+                resources -= 50;
+            }
+            else
+            {
+
+                string message = ("There is not enough minerals");
+                GUI.Label(new Rect(Screen.width / 2, Screen.height / 2, 200f, 200f), message);
+                print(message);
+
+
+            }
+        }
+        /*
+        if (GUI.Button(new Rect(Screen.width / 2 - 150, Screen.height / 1.5f, 300, 30), "buildthat"))
+        {
+
+      
+        }
+        */
+    }
+
 }
+
+
+
+
 
 

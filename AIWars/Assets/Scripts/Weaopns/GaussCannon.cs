@@ -44,7 +44,6 @@ public class GaussCannon : MonoBehaviour
                 GameObject bullet = PoolManager.Instance.GetObjectForType("Bullet", false);
                 Bullet script = bullet.GetComponent<Bullet>();
                 script.ignoreCollider = EquippedTo.GetComponent<Collider>();
-                //script.damage = 
                 bullet.GetComponent<Rigidbody>().velocity = EquippedTo.velocity + ((targets[0].position - transform.position).normalized * speed);
                 bullet.transform.position = transform.position;
                 shotDelay = 1 / rateOfFire;

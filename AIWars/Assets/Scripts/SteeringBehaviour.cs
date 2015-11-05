@@ -76,7 +76,7 @@ public abstract class SteeringBehaviour : MonoBehaviour
         // Check the distance to detect whether the character  is inside the slowing area
         if (distance < slowingRadius)
         {
-            desiredVelocity = desiredVelocity.normalized * maxSpeed * (distance / slowingRadius);
+            desiredVelocity = desiredVelocity.normalized * maxSpeed * (distance / (slowingRadius * 100));
         }
         else
         {

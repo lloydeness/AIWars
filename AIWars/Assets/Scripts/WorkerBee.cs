@@ -15,6 +15,8 @@ public class WorkerBee : SteeringBehaviour
     public Vector3 Base { get; set; }
     public bool isSelected { get; set; }
     public ObjectAttached attachedObject;
+    public GameObject workerObject;
+    public WorkerControl workerControl;
     public bool jobAssigned { get; set; }
 
 
@@ -34,8 +36,8 @@ public class WorkerBee : SteeringBehaviour
         maxSpeed = 3;
         turnSpeed = 0.2f;
         rb3d = this.GetComponentInParent<Rigidbody>();
-
-
+        workerObject = GameObject.Find("WorkerControl");
+        workerControl = workerObject.GetComponentInChildren<WorkerControl>();
 
 
     }
@@ -96,7 +98,7 @@ public class WorkerBee : SteeringBehaviour
         {
             if (goToMouse == true)
             {
-                moveToPoint();
+               
 
             }
             else
@@ -104,7 +106,6 @@ public class WorkerBee : SteeringBehaviour
 
                 if (SeekSensor.isColliding == true)
                 {
-
 
                     if (hasMineral == false)
                     {
@@ -119,8 +120,6 @@ public class WorkerBee : SteeringBehaviour
                         Seek(Base, 0);
 
                     }
-
-
                 }
             }
 
@@ -136,6 +135,13 @@ public class WorkerBee : SteeringBehaviour
         if (collecting == true && goToMouse == false)
         {
             isCollecting();
+
+        }
+        else if ( goToMouse == true)
+        {
+            moveToPoint();
+            ApplySteering();
+            Reset();
 
         }
         else
@@ -157,9 +163,10 @@ public class WorkerBee : SteeringBehaviour
 
     void OnCollisionEnter(Collision target)
     {
-        if (target.gameObject.tag == ("Base"))
+        if (target.gameObject.tag == ("Base") && hasMineral == true)
         {
             hasMineral = false;
+            workerControl.resources = workerControl.resources + 10;
         }
 
         if (target.gameObject.tag == ("Mineral"))
@@ -178,7 +185,7 @@ public class WorkerBee : SteeringBehaviour
 
         if (target.gameObject.tag == ("Mineral"))
         {
-
+           
             collecting = false;
 
         }
@@ -201,9 +208,11 @@ public class WorkerBee : SteeringBehaviour
     {
         Seek(tempLocation);
 
-        if ((rb3d.transform.position.x - tempLocation.x) <= .05 && (rb3d.transform.position.z - tempLocation.z) <= .05)
+
+        if (Vector3.Distance(rb3d.transform.position,tempLocation) < 0.05)     
         {
             goToMouse = false;
+         
         }
 
     }

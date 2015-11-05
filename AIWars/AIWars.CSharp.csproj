@@ -71,6 +71,10 @@
     <Compile Include="Assets\Scripts\AIMovement.cs" />
     <Compile Include="Assets\Scripts\EnemyBehaviors\Battler.cs" />
     <Compile Include="Assets\Scripts\EnemyBehaviors\Carrier.cs" />
+    <Compile Include="Assets\Scripts\EnemyBehaviors\EnemyFighter.cs" />
+    <Compile Include="Assets\Scripts\EnemyManager.cs" />
+    <Compile Include="Assets\Scripts\EnemySensor.cs" />
+    <Compile Include="Assets\Scripts\MineralCount.cs" />
     <Compile Include="Assets\Scripts\Minerals.cs" />
     <Compile Include="Assets\Scripts\MirrorWarp.cs" />
     <Compile Include="Assets\Scripts\PoolManager.cs" />
@@ -86,6 +90,7 @@
     <Compile Include="Assets\Scripts\Sprite.cs" />
     <Compile Include="Assets\Scripts\SteeringBehaviour.cs" />
     <Compile Include="Assets\Scripts\TextureManager.cs" />
+    <Compile Include="Assets\Scripts\Weaopns\EnemyCanon.cs" />
     <Compile Include="Assets\Scripts\Weaopns\GauseIntercept.cs" />
     <Compile Include="Assets\Scripts\Weaopns\GaussCannon.cs" />
     <Compile Include="Assets\Scripts\Weaopns\InterceptorLauncher.cs" />
